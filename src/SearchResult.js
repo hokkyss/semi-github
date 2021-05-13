@@ -10,7 +10,7 @@ function SearchResult({ match }) {
   useEffect(() => {
     fetchRepositories();
     // fetchRepo();
-  }, [match.params.repository]);
+  });
 
   const url = `https://api.github.com/search/repositories?q=${match.params.repository}`;
   const config = { method: "GET" };

@@ -19,7 +19,7 @@ function RepositoryDetail({ match }) {
 
   useEffect(() => {
     fetchAll();
-  }, [match.params.name, match.params.repository]);
+  });
 
   const repo_url = `https://api.github.com/repos/${match.params.name}/${match.params.repository}`;
   /*
