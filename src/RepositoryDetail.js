@@ -19,12 +19,10 @@ function RepositoryDetail({ match }) {
 
   useEffect(() => {
     fetchAll();
-  }, []);
-
-  console.log(match.params.path);
+  }, [match.params.name, match.params.repository]);
 
   const repo_url = `https://api.github.com/repos/${match.params.name}/${match.params.repository}`;
-
+  /*
   const fetchEverything = () => {
     fetch(repo_url, config)
       .then((response) => response.json())
@@ -43,6 +41,7 @@ function RepositoryDetail({ match }) {
       })
       .catch((error) => console.log(error));
   };
+*/
 
   const fetchAll = async () => {
     const result = await (await fetch(repo_url, config)).json();
@@ -89,7 +88,7 @@ function RepositoryDetail({ match }) {
     setTags(result);
   };
 
-  console.log(contributors);
+  console.log(repo);
 
   return (
     <div className="container">
@@ -167,7 +166,7 @@ function RepositoryDetail({ match }) {
           </div>
           {contributors.map((users) => (
             <a key={users.id} href={users.html_url}>
-              <img src={users.avatar_url} className="user-image" />
+              <img src={users.avatar_url} className="user-image" alt="" />
             </a>
           ))}
         </div>
