@@ -1,8 +1,16 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import "./index.css";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import { React } from "react";
 import Navbar from "./Navbar";
-import Search from "./Search";
+import SearchResult from "./SearchResult";
+import RepositoryDetail from "./RepositoryDetail";
 
 function App() {
   return (
@@ -10,8 +18,17 @@ function App() {
       <div className="App">
         <Navbar />
         <Switch>
+          <Route path="/search/:repository" component={SearchResult} />
+          <Route
+            path="/repo/:name/:repository/"
+            exact
+            component={RepositoryDetail}
+          />
+
           <Route path="/" exact component={Home} />
-          <Route path="/search/:id" component={Search} />
+          <Route path="/">
+            <Redirect to="/" />
+          </Route>
         </Switch>
       </div>
     </Router>
@@ -23,9 +40,13 @@ const Home = () => {
     <div className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
       <p>
-        Welcome to semi-github by <code>react</code>.<br />
-        This is the home page.
+        Welcome to semi-github by <code>react</code>. This is the home page.
+        <br />
+        This project is inspired from my friend's project in{" "}
+        <a href="https://graciellavl-github.netlify.app/">this link.</a>
       </p>
+      <br />
+      <br />
       <a
         className="App-link"
         href="https://reactjs.org"

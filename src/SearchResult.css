@@ -1,0 +1,17 @@
+.container {
+  padding-left: 12%;
+  padding-top: 3%;
+}
+
+.left-container {
+  height: 50%;
+  width: 15%;
+  margin-right: 2%;
+  background-color: blue;
+}
+
+.right-container {
+  height: 50%;
+  width: 30%;
+  background-color: red;
+}

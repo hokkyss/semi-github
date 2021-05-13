@@ -1,0 +1,123 @@
+.container {
+  padding-left: 3.5%;
+  padding-right: 3%;
+  width: 93.5%;
+}
+
+/* berisi detail repository, berupa info/identitas, files, dan konten readme.md */
+.detail-container {
+  width: 60%;
+  padding: 1%;
+  margin-right: 3%;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  border-color: black;
+  border: 2px solid;
+  border-radius: 7px;
+}
+
+/* mengurusi info repository, berupa nama, branch, dan tag */
+.repo-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2%;
+  color: #539bf5;
+  color: #0000ee;
+}
+
+/* mengurusi logo dan tulisan nama repository */
+.repo-name {
+  text-align: left;
+  font-size: 30px;
+  margin-right: 5%;
+}
+
+.repo-logo {
+  height: 22px;
+}
+
+/* mengurusi logo dan tulisan branch */
+.repo-branches {
+  font-size: 15px;
+  margin-right: 5%;
+}
+
+/* mengurusi logo dan tulisan tag */
+.repo-tags {
+  font-size: 15px;
+  margin-right: 5%;
+}
+
+/* mengurusi file */
+.repo-files {
+  border: 1px solid;
+  border-bottom: 0px;
+  border-radius: 5px;
+  text-align: left;
+  width: 100%;
+  margin-bottom: 2%;
+  display: flex;
+  flex-direction: column;
+}
+
+.repo-filenames {
+  padding-top: 1%;
+  padding-bottom: 1%;
+  color: black;
+  border-bottom: 1px solid;
+  border-color: black;
+}
+
+.fileFolder-logo {
+  margin-left: 1.5%;
+  margin-right: 1%;
+}
+
+/* mengurusi readme */
+.repo-readme {
+  text-align: left;
+  border-radius: 5px;
+  border: 1px solid;
+  border-color: black;
+  padding-bottom: 3%;
+}
+
+.readme-md-title {
+  padding-top: 1%;
+  padding-left: 2%;
+  padding-bottom: 1%;
+  border-bottom: 1px solid;
+}
+
+.readme-md-content {
+  padding-left: 4.5%;
+  padding-right: 4.5%;
+}
+
+.repo-desc {
+  display: flex;
+  flex-direction: column;
+  justify-items: left;
+  width: 30.5%;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+.desc {
+  color: black;
+  text-align: left;
+  border-bottom: 1px solid black;
+  padding-top: 5%;
+  padding-left: 1.5%;
+  padding-right: 1.5%;
+  padding-bottom: 5%;
+}
+
+.user-image {
+  width: 10%;
+  border-radius: 100%;
+  margin: 1.5%;
+}
