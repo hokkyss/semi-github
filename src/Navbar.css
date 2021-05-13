@@ -1,0 +1,44 @@
+.navbar {
+  display: flex;
+  flex-direction: row;
+  background-color: black;
+  padding-top: 1%;
+  padding-bottom: 0.5%;
+  width: 100%;
+  height: 7%;
+}
+
+.navbar-content {
+  height: 7%;
+  margin-left: 1%;
+  padding-left: 1%;
+  padding-right: 1%;
+  text-align: center;
+}
+
+.text-link {
+  color: white;
+  height: 7%;
+}
+
+.text-link:hover {
+  color: #586069;
+}
+
+.github-icon {
+  height: 300%;
+  width: 300%;
+}
+
+.search-box {
+  background-color: black;
+  color: white;
+  border-color: black;
+}
+
+.submit-search {
+  margin-top: 0.15%;
+  color: white;
+  width: 3%;
+  height: 3%;
+}
