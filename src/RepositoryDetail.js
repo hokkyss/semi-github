@@ -165,7 +165,7 @@ function RepositoryDetail({ match }) {
             <b>Contributors</b>
           </div>
           {contributors.map((users) => (
-            <a key={users.id} href={users.html_url}>
+            <a key={users.id} href={users.html_url} title={users.login}>
               <img src={users.avatar_url} className="user-image" alt="" />
             </a>
           ))}
