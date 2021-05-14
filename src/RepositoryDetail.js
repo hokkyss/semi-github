@@ -7,7 +7,6 @@ import { FaFolder } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 
 function RepositoryDetail({ match }) {
-  const [repo, setRepo] = useState({});
   const [content, setContent] = useState([]);
   const [readme, setReadme] = useState("");
   const [contributors, setContributors] = useState([]);
@@ -73,7 +72,6 @@ function RepositoryDetail({ match }) {
       };
       const repo_url = `https://api.github.com/repos/${name}/${repo}`;
       const result = await (await fetch(repo_url, config)).json();
-      setRepo(result);
       setDescription(result.description);
       fetchReadme(name, repo, result.default_branch);
       fetchContents(name, repo);
@@ -87,14 +85,6 @@ function RepositoryDetail({ match }) {
   useEffect(() => {
     fetchAll(match.params.name, match.params.repository);
   }, [fetchAll, match.params.name, match.params.repository]);
-
-  console.log(repo);
-  console.log(content);
-  console.log(readme);
-  console.log(contributors);
-  console.log(description);
-  console.log(branch);
-  console.log(tags);
 
   return (
     <div className="container">
@@ -142,12 +132,16 @@ function RepositoryDetail({ match }) {
             </a>
           ))}
         </div>
-        <div className="repo-readme">
-          <div className="readme-md-title">README.md</div>
-          <ReactMarkdown skipHtml={false} className="readme-md-content">
-            {readme}
-          </ReactMarkdown>
-        </div>
+        {readme === "404: Not Found" ? (
+          ""
+        ) : (
+          <div className="repo-readme">
+            <div className="readme-md-title">README.md</div>
+            <ReactMarkdown skipHtml={true} className="readme-md-content">
+              {readme}
+            </ReactMarkdown>
+          </div>
+        )}
       </div>
       <div className="repo-desc">
         <div className="desc">
