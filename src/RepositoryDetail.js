@@ -16,9 +16,9 @@ function RepositoryDetail({ match }) {
   const [tags, setTags] = useState([]);
 
   const fetchReadme = useCallback(async (name, repository, default_branch) => {
+    console.log("INI FETCH README");
     const config = {
       method: "GET",
-      headers: { authorization: "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" },
     };
     const readme_url = `https://raw.githubusercontent.com/${name}/${repository}/${default_branch}/README.md`;
     const result = await (await fetch(readme_url, config)).text();
@@ -89,6 +89,12 @@ function RepositoryDetail({ match }) {
   }, [fetchAll, match.params.name, match.params.repository]);
 
   console.log(repo);
+  console.log(content);
+  console.log(readme);
+  console.log(contributors);
+  console.log(description);
+  console.log(branch);
+  console.log(tags);
 
   return (
     <div className="container">
@@ -138,11 +144,9 @@ function RepositoryDetail({ match }) {
         </div>
         <div className="repo-readme">
           <div className="readme-md-title">README.md</div>
-          <ReactMarkdown
-            children={readme}
-            skipHtml={false}
-            className="readme-md-content"
-          />
+          <ReactMarkdown skipHtml={false} className="readme-md-content">
+            {readme}
+          </ReactMarkdown>
         </div>
       </div>
       <div className="repo-desc">
