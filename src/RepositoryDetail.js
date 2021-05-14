@@ -101,32 +101,24 @@ function RepositoryDetail({ match }) {
               <GoRepo className="repo-logo" />
               {match.params.name}/<b>{match.params.repository}</b>
             </a>
-            {match.params.path === undefined ? "" : `/${match.params.path}`}
           </div>
-          {match.params.path === undefined ? (
-            <div className="repo-branches">
-              <a
-                href={`https://github.com/${match.params.name}/${match.params.repository}/branches`}
-              >
-                <GoGitBranch className="branch-logo" />
-                <b>{branch.length}</b> branches.
-              </a>
-            </div>
-          ) : (
-            ""
-          )}
-          {match.params.path === undefined ? (
-            <div className="repo-tags">
-              <a
-                href={`https://github.com/${match.params.name}/${match.params.repository}/tags`}
-              >
-                <GoTag className="tag-logo" />
-                <b>{tags.length}</b> tags.
-              </a>
-            </div>
-          ) : (
-            ""
-          )}
+          <div className="repo-branches">
+            <a
+              href={`https://github.com/${match.params.name}/${match.params.repository}/branches`}
+            >
+              <GoGitBranch className="branch-logo" />
+              <b>{branch.length}</b> branches.
+            </a>
+          </div>
+
+          <div className="repo-tags">
+            <a
+              href={`https://github.com/${match.params.name}/${match.params.repository}/tags`}
+            >
+              <GoTag className="tag-logo" />
+              <b>{tags.length}</b> tags.
+            </a>
+          </div>
         </div>
         <div className="repo-files">
           {content.map((fileFolder) => (
