@@ -44,6 +44,7 @@ function SearchResult({ match }) {
     setRepositories(result.items);
   }, []);
 
+  /*
   const fetchRepositories = useCallback((query) => {
     const url = `https://api.github.com/search/repositories?q=${query}`;
     const config = {
@@ -58,6 +59,7 @@ function SearchResult({ match }) {
       })
       .catch((error) => console.log(error));
   }, []);
+  */
 
   useEffect(() => {
     //fetchRepositories(match.params.repository);
