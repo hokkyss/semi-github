@@ -1,6 +1,6 @@
 import "./RepositoryDetail.css";
 import "./index.css";
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useCallback } from "react";
 import { GoRepo, GoGitBranch, GoTag } from "react-icons/go";
 import { VscFile } from "react-icons/all";
 import { FaFolder } from "react-icons/fa";
@@ -15,56 +15,78 @@ function RepositoryDetail({ match }) {
   const [branch, setBranch] = useState([]);
   const [tags, setTags] = useState([]);
 
-  const config = {
-    method: "GET",
-    headers: { authorization: "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" },
-  };
-
-  useEffect(() => {
-    fetchAll(match.params.name, match.params.repository);
-  });
-
-  const fetchAll = async (name, repo) => {
-    const repo_url = `https://api.github.com/repos/${name}/${repo}`;
-    const result = await (await fetch(repo_url, config)).json();
-    setRepo(result);
-    setDescription(result.description);
-    fetchReadme(name, repo, result.default_branch);
-    fetchContents(name, repo);
-    fetchContributors(name, repo);
-    fetchBranch(name, repo);
-    fetchTags(name, repo);
-  };
-
-  const fetchReadme = async (name, repository, default_branch) => {
+  const fetchReadme = useCallback(async (name, repository, default_branch) => {
+    const config = {
+      method: "GET",
+      headers: { authorization: "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" },
+    };
     const readme_url = `https://raw.githubusercontent.com/${name}/${repository}/${default_branch}/README.md`;
     const result = await (await fetch(readme_url, config)).text();
     setReadme(result);
-  };
+  }, []);
 
-  const fetchContents = async (name, repository) => {
+  const fetchContents = useCallback(async (name, repository) => {
+    const config = {
+      method: "GET",
+      headers: { authorization: "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" },
+    };
     const contents_url = `https://api.github.com/repos/${name}/${repository}/contents/`;
     const result = await (await fetch(contents_url, config)).json();
     setContent(result);
-  };
+  }, []);
 
-  const fetchContributors = async (name, repository) => {
+  const fetchContributors = useCallback(async (name, repository) => {
+    const config = {
+      method: "GET",
+      headers: { authorization: "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" },
+    };
     const contributors_url = `https://api.github.com/repos/${name}/${repository}/contributors`;
     const result = await (await fetch(contributors_url, config)).json();
     setContributors(result);
-  };
+  }, []);
 
-  const fetchBranch = async (name, repository) => {
+  const fetchBranch = useCallback(async (name, repository) => {
+    const config = {
+      method: "GET",
+      headers: { authorization: "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" },
+    };
     const branch_url = `https://api.github.com/repos/${name}/${repository}/branches`;
     const result = await (await fetch(branch_url, config)).json();
     setBranch(result);
-  };
+  }, []);
 
-  const fetchTags = async (name, repository) => {
+  const fetchTags = useCallback(async (name, repository) => {
+    const config = {
+      method: "GET",
+      headers: { authorization: "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" },
+    };
     const tags_url = `https://api.github.com/repos/${name}/${repository}/tags`;
     const result = await (await fetch(tags_url, config)).json();
     setTags(result);
-  };
+  }, []);
+
+  const fetchAll = useCallback(
+    async (name, repo) => {
+      const config = {
+        method: "GET",
+        headers: { authorization: "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" },
+      };
+      const repo_url = `https://api.github.com/repos/${name}/${repo}`;
+      const result = await (await fetch(repo_url, config)).json();
+      setRepo(result);
+      setDescription(result.description);
+      fetchReadme(name, repo, result.default_branch);
+      fetchContents(name, repo);
+      fetchContributors(name, repo);
+      fetchBranch(name, repo);
+      fetchTags(name, repo);
+    },
+    [fetchReadme, fetchContents, fetchContributors, fetchBranch, fetchTags]
+  );
+
+  useEffect(() => {
+    fetchAll(match.params.name, match.params.repository);
+  }, [fetchAll, match.params.name, match.params.repository]);
 
   console.log(repo);
 

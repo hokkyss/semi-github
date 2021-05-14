@@ -1,6 +1,6 @@
 import "./SearchResult.css";
 import "./index.css";
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useCallback } from "react";
 import { GoRepo, GoStar } from "react-icons/go";
 import { FaCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -32,22 +32,20 @@ function SearchResult({ match }) {
     return day + " " + month_name + " " + year;
   };
 
-  const config = {
-    method: "GET",
-    headers: { authorization: "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" },
-  };
-
-  const fetchRepo = async (query) => {
+  const fetchRepo = useCallback(async (query) => {
     const url = `https://api.github.com/search/repositories?q=${query}`;
+    const config = {
+      method: "GET",
+      headers: { authorization: "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" },
+    };
     const result = await (await fetch(url, config)).json();
-    console.log(result);
     setCount(result.total_count);
     setRepositories(result.items);
-  };
+  }, []);
 
   useEffect(() => {
     fetchRepo(match.params.query);
-  });
+  }, [fetchRepo, match.params.query]);
 
   console.log(repositories);
 
