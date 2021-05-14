@@ -15,47 +15,25 @@ function RepositoryDetail({ match }) {
   const [branch, setBranch] = useState([]);
   const [tags, setTags] = useState([]);
 
-  const config = { method: "GET" };
+  const config = {
+    method: "GET",
+    headers: { authorization: "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" },
+  };
 
   useEffect(() => {
-    fetchAll();
+    fetchAll(match.params.name, match.params.repository);
   });
 
-  const repo_url = `https://api.github.com/repos/${match.params.name}/${match.params.repository}`;
-  /*
-  const fetchEverything = () => {
-    fetch(repo_url, config)
-      .then((response) => response.json())
-      .then((result) => {
-        setRepo(result);
-        setDescription(result.description);
-        fetchReadme(
-          match.params.name,
-          match.params.repository,
-          result.default_branch
-        );
-        fetchContents(match.params.name, match.params.repository);
-        fetchContributors(match.params.name, match.params.repository);
-        fetchBranch(match.params.name, match.params.repository);
-        fetchTags(match.params.name, match.params.repository);
-      })
-      .catch((error) => console.log(error));
-  };
-*/
-
-  const fetchAll = async () => {
+  const fetchAll = async (name, repo) => {
+    const repo_url = `https://api.github.com/repos/${name}/${repo}`;
     const result = await (await fetch(repo_url, config)).json();
     setRepo(result);
     setDescription(result.description);
-    fetchReadme(
-      match.params.name,
-      match.params.repository,
-      result.default_branch
-    );
-    fetchContents(match.params.name, match.params.repository);
-    fetchContributors(match.params.name, match.params.repository);
-    fetchBranch(match.params.name, match.params.repository);
-    fetchTags(match.params.name, match.params.repository);
+    fetchReadme(name, repo, result.default_branch);
+    fetchContents(name, repo);
+    fetchContributors(name, repo);
+    fetchBranch(name, repo);
+    fetchTags(name, repo);
   };
 
   const fetchReadme = async (name, repository, default_branch) => {
