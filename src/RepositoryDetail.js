@@ -15,7 +15,6 @@ function RepositoryDetail({ match }) {
   const [tags, setTags] = useState([]);
 
   const fetchReadme = useCallback(async (name, repository, default_branch) => {
-    console.log("INI FETCH README");
     const config = {
       method: "GET",
     };

@@ -47,8 +47,6 @@ function SearchResult({ match }) {
     fetchRepo(match.params.query);
   }, [fetchRepo, match.params.query]);
 
-  console.log(repositories);
-
   return (
     <div className="container">
       <div className="left-container">
