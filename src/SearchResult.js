@@ -1,13 +1,15 @@
 import "./SearchResult.css";
 import "./index.css";
 import { React, useState, useEffect, useCallback } from "react";
+import { useParams } from "react-router-dom";
 import { GoRepo, GoStar } from "react-icons/go";
 import { FaCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-function SearchResult({ match }) {
+function SearchResult() {
   const [repositories, setRepositories] = useState([]);
   const [count, setCount] = useState(0);
+  const { query } = useParams();
 
   const dateString = (date) => {
     date = new Date(date);
@@ -44,8 +46,8 @@ function SearchResult({ match }) {
   }, []);
 
   useEffect(() => {
-    fetchRepo(match.params.query);
-  }, [fetchRepo, match.params.query]);
+    fetchRepo(query);
+  }, [fetchRepo, query]);
 
   return (
     <div className="container">

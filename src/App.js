@@ -18,7 +18,7 @@ function App() {
       <div className="App">
         <Navbar />
         <Switch>
-          <Route path="/repo" component={RepositoryDetail}></Route>
+          <Route path="/repo" component={RepositoryDetail} />
           <Route path="/search/:query" component={SearchResult} />
           <Route path="/" exact component={Home} />
           <Route path="/">

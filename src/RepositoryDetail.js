@@ -16,10 +16,7 @@ function RepositoryDetail() {
   const [tags, setTags] = useState([]);
 
   const location = useLocation();
-  console.log(location);
   const { content_url, path } = location.state;
-  console.log(content_url);
-  console.log(path);
   const match = useRouteMatch("/repo/:name/:repository");
 
   const fetchReadme = useCallback(
@@ -101,16 +98,7 @@ function RepositoryDetail() {
 
   useEffect(() => {
     fetchAll(match.params.name, match.params.repository, content_url);
-    console.log(location);
-  }, [
-    fetchAll,
-    match.params.name,
-    match.params.repository,
-    content_url,
-    location,
-  ]);
-
-  console.log(content);
+  }, [fetchAll, match.params.name, match.params.repository, content_url]);
 
   return (
     <div className="container">
