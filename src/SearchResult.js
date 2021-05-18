@@ -64,7 +64,15 @@ function SearchResult({ match }) {
             </div>
             <div className="repo-right">
               <div className="repo-link">
-                <Link to={`/repo/${repo.full_name}`}>
+                <Link
+                  to={{
+                    pathname: `/repo/${repo.full_name}`,
+                    state: {
+                      content_url: repo.url + "/contents",
+                      path: "",
+                    },
+                  }}
+                >
                   {repo.owner.login}/<b>{repo.name}</b>
                 </Link>
               </div>

@@ -18,13 +18,8 @@ function App() {
       <div className="App">
         <Navbar />
         <Switch>
+          <Route path="/repo" component={RepositoryDetail}></Route>
           <Route path="/search/:query" component={SearchResult} />
-          <Route
-            path="/repo/:name/:repository/"
-            exact
-            component={RepositoryDetail}
-          />
-
           <Route path="/" exact component={Home} />
           <Route path="/">
             <Redirect to="/" />
