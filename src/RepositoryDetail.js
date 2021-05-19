@@ -19,6 +19,8 @@ function RepositoryDetail() {
   const { content_url, path } = location.state;
   const match = useRouteMatch("/repo/:name/:repository");
 
+  const dir = path.split("/");
+
   const fetchReadme = useCallback(
     async (name, repository, default_branch) => {
       const config = {
@@ -109,9 +111,11 @@ function RepositoryDetail() {
               href={`https://github.com/${match.params.name}/${match.params.repository}`}
             >
               <GoRepo className="repo-logo" />
-              {match.params.name}/<b>{match.params.repository}</b>
+              {match.params.name + " "}/<b>{" " + match.params.repository}</b>
             </a>
-            /{path}
+            {dir.map((path) => {
+              return path === "" ? "" : " / " + path;
+            })}
           </div>
           {path === "" ? (
             <div className="repo-branches">
