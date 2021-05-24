@@ -11,6 +11,7 @@ import { React } from "react";
 import Navbar from "./Navbar";
 import SearchResult from "./SearchResult";
 import RepositoryDetail from "./RepositoryDetail";
+import Copyright from "./Copyright";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Redirect to="/" />
           </Route>
         </Switch>
+        <Copyright />
       </div>
     </Router>
   );
