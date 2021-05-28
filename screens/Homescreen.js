@@ -1,63 +1,103 @@
-import React from "react";
-import { Dimensions, StyleSheet, Text, View, StatusBar } from "react-native";
+import React, { useState } from "react";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Pressable,
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useNavigation } from "@react-navigation/native";
+
+import globalStyles from "./../GlobalStyle";
+import Navbar from "./../component/Navbar";
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 const deviceScale = Dimensions.get("window").scale;
 
-function HomeScreen(props) {
-  const navigation = useNavigation();
+function HomeScreen({ navigation }) {
+  const [text, setText] = useState("");
+  const [isRepo, setIsRepo] = useState(true);
 
   const toSearchScreen = () => {
-    navigation.navigate("Home Screen");
+    if (text === "") {
+    } else {
+      navigation.navigate("Result", { query: text, isRepo: isRepo });
+    }
+  };
+
+  const handleChange = (value) => {
+    if (value === " " && text === "") {
+    } else {
+      setText(value);
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <View style={[styles.navbar]}>
-        <Text style={styles.text}>POKéDEX</Text>
+    <View style={globalStyles.container}>
+      <Navbar>
+        <TextInput
+          style={[globalStyles.inputText]}
+          onChangeText={handleChange}
+          value={text}
+          placeholder="Search GitHub"
+          returnKeyType="search"
+          onSubmitEditing={toSearchScreen}
+        />
         <Icon.Button
           name="search"
-          backgroundColor={colors.normalNavbar}
+          backgroundColor="black"
           onPress={toSearchScreen}
         ></Icon.Button>
+      </Navbar>
+      <View style={[globalStyles.contentBox, styles.contentBox]}>
+        {text === "" ? <Text>Intentionally left blank</Text> : <></>}
+        {text === "" ? (
+          <></>
+        ) : (
+          <Pressable
+            style={({ pressed }) => [
+              styles.optButton,
+              {
+                backgroundColor: pressed ? "grey" : "white",
+              },
+            ]}
+            onPress={() => setIsRepo(true)}
+          >
+            <Text>Repositories with "{text}"</Text>
+          </Pressable>
+        )}
+        {text === "" ? (
+          <></>
+        ) : (
+          <Pressable
+            style={({ pressed }) => [
+              styles.optButton,
+              {
+                backgroundColor: pressed ? "grey" : "white",
+              },
+            ]}
+            onPress={() => setIsRepo(false)}
+          >
+            <Text>People with "{text}"</Text>
+          </Pressable>
+        )}
       </View>
-      <View style={styles.contentBox}></View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "column",
-    height: "100%",
-    width: "100%",
-    backgroundColor: colors.back,
-    paddingTop: StatusBar.currentHeight,
-    paddingBottom: "2%",
-  },
   contentBox: {
-    height: "93%",
-    padding: "1.25%",
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  navbar: {
-    backgroundColor: colors.normalNavbar,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingLeft: "3%",
-    paddingRight: "2%",
+    flexDirection: "column",
+    justifyContent: "flex-start",
     alignItems: "center",
-    width: "100%",
-    height: "7%",
+    alignContent: "center",
   },
-  text: {
-    color: colors.white,
-    fontWeight: "bold",
-    fontSize: 20,
+  optButton: {
+    width: deviceWidth,
+    alignItems: "center",
   },
 });
 
