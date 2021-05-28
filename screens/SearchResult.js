@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Dimensions, StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import globalStyles from "./../GlobalStyle";
@@ -16,14 +16,32 @@ function SearchResult({ navigation, route }) {
     isRepo ? "repositories" : "users"
   }?q=${query}`;
 
-  useEffect(
-    () =>
-      fetch(url)
-        .then((response) => response.json())
-        .then((result) => setSearchResult(result.items))
-        .catch((error) => console.log(error)),
-    []
-  );
+  const goToDetail = (fullname) => {
+    navigation.navigate("Details", { fullname: fullname, path: "" });
+  };
+
+  const fetchContent = () => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((result) => setSearchResult(result.items))
+      .catch((error) => {
+        // console.log("fetch error");
+      });
+    /*
+    try {
+      const response = await fetch(url);
+      const result = await response.json();
+      setSearchResult(result.items);
+      console.log(searchResult);
+    } catch (error) {
+      console.log("fetch error");
+    }*/
+  };
+
+  useEffect(() => {
+    fetchContent();
+    // console.log("useEffect");
+  }, []);
 
   return (
     <View style={[globalStyles.container, styles.container]}>
@@ -35,10 +53,23 @@ function SearchResult({ navigation, route }) {
         />
         <Text style={styles.query}>{query}</Text>
       </Navbar>
-      <View style={[globalStyles.contentBox]}>
+      <View style={[globalStyles.contentBox, styles.contentBox]}>
         {searchResult.map((result) =>
           isRepo ? (
-            <View style={[styles.repo]}></View>
+            <Pressable
+              style={({ pressed }) => [
+                styles.repo,
+                {
+                  backgroundColor: pressed ? "grey" : "white",
+                },
+              ]}
+              onPress={() => {
+                console.log("repo pressed");
+                goToDetail(result.full_name);
+              }}
+            >
+              <Text>{result.full_name}</Text>
+            </Pressable>
           ) : (
             <View style={[styles.user]}></View>
           )
@@ -49,6 +80,10 @@ function SearchResult({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+  contentBox: {
+    flexDirection: "column",
+    backgroundColor: "blue",
+  },
   query: {
     color: "white",
     fontWeight: "bold",
@@ -58,6 +93,7 @@ const styles = StyleSheet.create({
   },
   repo: {
     borderBottomColor: "grey",
+    borderBottomWidth: 1,
     width: "90%",
   },
   user: {
