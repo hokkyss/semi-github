@@ -23,7 +23,7 @@ function HomeScreen({ navigation }) {
   const toSearchScreen = () => {
     if (text === "") {
     } else {
-      navigation.navigate("Result", { query: text, isRepo: isRepo });
+      navigation.navigate("Search Result", { query: text, isRepo: isRepo });
     }
   };
 
@@ -32,6 +32,11 @@ function HomeScreen({ navigation }) {
     } else {
       setText(value);
     }
+  };
+
+  const handlePress = (bool) => {
+    setIsRepo(bool);
+    toSearchScreen();
   };
 
   return (
@@ -63,7 +68,7 @@ function HomeScreen({ navigation }) {
                 backgroundColor: pressed ? "grey" : "white",
               },
             ]}
-            onPress={() => setIsRepo(true)}
+            onPress={() => handlePress(true)}
           >
             <Text>Repositories with "{text}"</Text>
           </Pressable>
@@ -78,7 +83,7 @@ function HomeScreen({ navigation }) {
                 backgroundColor: pressed ? "grey" : "white",
               },
             ]}
-            onPress={() => setIsRepo(false)}
+            onPress={() => handlePress(false)}
           >
             <Text>People with "{text}"</Text>
           </Pressable>
