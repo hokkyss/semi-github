@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Dimensions, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TextInput,
+  ScrollView,
+  View,
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import globalStyles from "../GlobalStyle";
-import Navbar from "../component/Navbar";
+import globalStyles from "./../GlobalStyle";
+import globalConfig from "./../GlobalConfig";
+import Navbar from "./../component/Navbar";
 
 function RepositoryDetails({ navigation, route }) {
   const { fullname, path } = route.params;
@@ -16,7 +24,7 @@ function RepositoryDetails({ navigation, route }) {
   const url = `https://api.github.com/repos/${fullname}/contents/${path}`;
 
   const fetchFiles = () => {
-    fetch(url)
+    fetch(url, globalConfig)
       .then((response) => response.json())
       .then((result) => setContent(result))
       .catch((error) => {});
@@ -38,7 +46,7 @@ function RepositoryDetails({ navigation, route }) {
         <Text style={styles.repoPath}>{fullname}</Text>
       </Navbar>
 
-      <View style={globalStyles.contentBox}></View>
+      <ScrollView style={[globalStyles.contentBox]}></ScrollView>
     </View>
   );
 }

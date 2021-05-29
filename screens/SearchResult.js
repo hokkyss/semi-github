@@ -12,33 +12,31 @@ import Icon from "react-native-vector-icons/FontAwesome";
 const deviceWidth = Dimensions.get("window").width;
 
 import globalStyles from "./../GlobalStyle";
+import globalConfig from "./../GlobalConfig";
 import Navbar from "./../component/Navbar";
 
 function SearchResult({ navigation, route }) {
   const { query, isRepo } = route.params;
   const [searchResult, setSearchResult] = useState([]);
+  const [wholeResult, setWhole] = useState([]);
 
   const goBack = () => navigation.navigate("Home Screen");
 
-  const url = (page) =>
+  const url = () =>
     `https://api.github.com/search/${
       isRepo ? "repositories" : "users"
-    }?q=${query}&page=${page}&per_page=100`;
+    }?q=${query}&page=1&per_page=100`;
 
-  const config = {
-    method: "GET",
-    headers: { authorization: "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" },
-  };
-
-  const goToDetail = (fullname) => {
+  const goToRepositoryDetail = (fullname) => {
     navigation.navigate("Repository Details", { fullname: fullname, path: "" });
   };
 
   const fetchContent = () => {
-    fetch(url(1), config)
+    fetch(url, globalConfig)
       .then((response) => response.json())
       .then((result) => {
         setSearchResult(result.items);
+        setWhole(wholeResult.concat(searchResult));
       })
       .catch((error) => {
         console.log("fetch error");
@@ -65,7 +63,7 @@ function SearchResult({ navigation, route }) {
         ]}
         onPress={() => {
           console.log("repo pressed");
-          goToDetail(item.full_name);
+          goToRepositoryDetail(item.full_name);
         }}
       >
         <Text>{index}</Text>
@@ -77,9 +75,9 @@ function SearchResult({ navigation, route }) {
   };
 
   useEffect(() => {
-    // console.log("useEffect");
+    console.log("useEffect");
     fetchContent();
-    // console.log("selesai useEffect");
+    console.log("selesai useEffect");
   }, []);
 
   return (
