@@ -1,31 +1,47 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  Dimensions,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+
+const deviceWidth = Dimensions.get("window").width;
 
 import globalStyles from "./../GlobalStyle";
 import Navbar from "./../component/Navbar";
 
 function SearchResult({ navigation, route }) {
   const { query, isRepo } = route.params;
-
   const [searchResult, setSearchResult] = useState([]);
 
-  const goBack = () => navigation.goBack();
+  const goBack = () => navigation.navigate("Home Screen");
 
-  const url = `https://api.github.com/search/${
-    isRepo ? "repositories" : "users"
-  }?q=${query}`;
+  const url = (page) =>
+    `https://api.github.com/search/${
+      isRepo ? "repositories" : "users"
+    }?q=${query}&page=${page}&per_page=100`;
+
+  const config = {
+    method: "GET",
+    headers: { authorization: "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" },
+  };
 
   const goToDetail = (fullname) => {
-    navigation.navigate("Details", { fullname: fullname, path: "" });
+    navigation.navigate("Repository Details", { fullname: fullname, path: "" });
   };
 
   const fetchContent = () => {
-    fetch(url)
+    fetch(url(1), config)
       .then((response) => response.json())
-      .then((result) => setSearchResult(result.items))
+      .then((result) => {
+        setSearchResult(result.items);
+      })
       .catch((error) => {
-        // console.log("fetch error");
+        console.log("fetch error");
       });
     /*
     try {
@@ -38,9 +54,32 @@ function SearchResult({ navigation, route }) {
     }*/
   };
 
+  const renderResult = ({ item, index }) => {
+    return isRepo ? (
+      <Pressable
+        style={({ pressed }) => [
+          styles.repo,
+          {
+            backgroundColor: pressed ? "grey" : "white",
+          },
+        ]}
+        onPress={() => {
+          console.log("repo pressed");
+          goToDetail(item.full_name);
+        }}
+      >
+        <Text>{index}</Text>
+        <Text>{item.full_name}</Text>
+      </Pressable>
+    ) : (
+      <View style={[styles.user]}></View>
+    );
+  };
+
   useEffect(() => {
-    fetchContent();
     // console.log("useEffect");
+    fetchContent();
+    // console.log("selesai useEffect");
   }, []);
 
   return (
@@ -54,26 +93,12 @@ function SearchResult({ navigation, route }) {
         <Text style={styles.query}>{query}</Text>
       </Navbar>
       <View style={[globalStyles.contentBox, styles.contentBox]}>
-        {searchResult.map((result) =>
-          isRepo ? (
-            <Pressable
-              style={({ pressed }) => [
-                styles.repo,
-                {
-                  backgroundColor: pressed ? "grey" : "white",
-                },
-              ]}
-              onPress={() => {
-                console.log("repo pressed");
-                goToDetail(result.full_name);
-              }}
-            >
-              <Text>{result.full_name}</Text>
-            </Pressable>
-          ) : (
-            <View style={[styles.user]}></View>
-          )
-        )}
+        <FlatList
+          data={searchResult}
+          renderItem={renderResult}
+          style={styles.result}
+          extraData={isRepo}
+        />
       </View>
     </View>
   );
@@ -82,7 +107,7 @@ function SearchResult({ navigation, route }) {
 const styles = StyleSheet.create({
   contentBox: {
     flexDirection: "column",
-    backgroundColor: "blue",
+    paddingTop: 0,
   },
   query: {
     color: "white",
@@ -94,10 +119,13 @@ const styles = StyleSheet.create({
   repo: {
     borderBottomColor: "grey",
     borderBottomWidth: 1,
-    width: "90%",
+  },
+  result: {
+    width: "100%",
   },
   user: {
     borderBottomColor: "grey",
+    borderBottomWidth: 1,
   },
 });
 

@@ -5,11 +5,13 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import globalStyles from "../GlobalStyle";
 import Navbar from "../component/Navbar";
 
-function Details({ navigation, route }) {
-  const { isReadme, fullname, path } = route.params;
+function RepositoryDetails({ navigation, route }) {
+  const { fullname, path } = route.params;
   const [content, setContent] = useState("");
 
   const goBack = () => navigation.goBack();
+
+  const pathList = path.split("/");
 
   const url = `https://api.github.com/repos/${fullname}/contents/${path}`;
 
@@ -17,15 +19,12 @@ function Details({ navigation, route }) {
     fetch(url)
       .then((response) => response.json())
       .then((result) => setContent(result))
-      .catch((error) => console.log("fetch error"));
-
-    console.log("fetch file");
+      .catch((error) => {});
   };
 
   useEffect(() => {
-    console.log("useEffect details");
     fetchFiles();
-    console.log("selesai fetch");
+    console.log(pathList);
   }, []);
 
   return (
@@ -39,9 +38,7 @@ function Details({ navigation, route }) {
         <Text style={styles.repoPath}>{fullname}</Text>
       </Navbar>
 
-      <View style={globalStyles.contentBox}>
-        {isReadme === true ? <></> : <></>}
-      </View>
+      <View style={globalStyles.contentBox}></View>
     </View>
   );
 }
@@ -56,4 +53,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Details;
+export default RepositoryDetails;

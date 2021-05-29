@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import globalStyles from "./../GlobalStyle";
-import Navbar from "./../component/Navbar";
+import globalStyles from "../GlobalStyle";
+import Navbar from "../component/Navbar";
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
@@ -18,9 +18,8 @@ const deviceScale = Dimensions.get("window").scale;
 
 function HomeScreen({ navigation }) {
   const [text, setText] = useState("");
-  const [isRepo, setIsRepo] = useState(true);
 
-  const toSearchScreen = () => {
+  const toSearchScreen = (text, isRepo) => {
     if (text === "") {
     } else {
       navigation.navigate("Search Result", { query: text, isRepo: isRepo });
@@ -34,11 +33,6 @@ function HomeScreen({ navigation }) {
     }
   };
 
-  const handlePress = (bool) => {
-    setIsRepo(bool);
-    toSearchScreen();
-  };
-
   return (
     <View style={globalStyles.container}>
       <Navbar>
@@ -48,12 +42,12 @@ function HomeScreen({ navigation }) {
           value={text}
           placeholder="Search GitHub"
           returnKeyType="search"
-          onSubmitEditing={toSearchScreen}
+          onSubmitEditing={() => toSearchScreen(text, true)}
         />
         <Icon.Button
           name="search"
           backgroundColor="black"
-          onPress={toSearchScreen}
+          onPress={() => toSearchScreen(text, true)}
         ></Icon.Button>
       </Navbar>
       <View style={[globalStyles.contentBox, styles.contentBox]}>
@@ -68,7 +62,7 @@ function HomeScreen({ navigation }) {
                 backgroundColor: pressed ? "grey" : "white",
               },
             ]}
-            onPress={() => handlePress(true)}
+            onPress={() => toSearchScreen(text, true)}
           >
             <Text>Repositories with "{text}"</Text>
           </Pressable>
@@ -83,7 +77,7 @@ function HomeScreen({ navigation }) {
                 backgroundColor: pressed ? "grey" : "white",
               },
             ]}
-            onPress={() => handlePress(false)}
+            onPress={() => toSearchScreen(text, false)}
           >
             <Text>People with "{text}"</Text>
           </Pressable>
