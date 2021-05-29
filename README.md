@@ -1,30 +1,30 @@
-# Getting Started with Create React App
+# Getting Started with React Native with Expo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [expo](https://docs.expo.io/).
 
 ## Prerequisites
 
 - expo-cli
   > `npm install -g expo-cli`
-- Expo Go
+- Expo in Android Device
   ![App](./img/expo.jpg)
 
 ## Setup
 
 - `npm install`
-- `expo start`
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### `expo start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [Expo Developer Tools](http://localhost:19002/) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Scan the QR Code with Expo in your Android Device.\
+The app will reload everytime you make changes to your code. \
+Errors will be shown in terminal and in [Expo Developer Tools](http://localhost:19002/).
 
 ## Learn More
 
