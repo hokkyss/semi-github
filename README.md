@@ -7,6 +7,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - expo-cli
   > `npm install -g expo-cli`
 - Expo Go
+  ![App](./img/expo.jpg)
 
 ## Setup
 
