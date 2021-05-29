@@ -35,7 +35,7 @@ function SearchResult() {
   };
 
   const fetchRepo = useCallback(async (query) => {
-    const url = `https://api.github.com/search/repositories?q=${query}`;
+    const url = `https://api.github.com/search/repositories?q=${query}&page=1&per_page=100`;
     const config = {
       method: "GET",
       headers: { authorization: "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" },
