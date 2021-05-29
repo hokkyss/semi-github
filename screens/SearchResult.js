@@ -18,7 +18,6 @@ import Navbar from "./../component/Navbar";
 function SearchResult({ navigation, route }) {
   const { query, isRepo } = route.params;
   const [searchResult, setSearchResult] = useState([]);
-  const [wholeResult, setWhole] = useState([]);
 
   const goBack = () => navigation.navigate("Home Screen");
 
@@ -34,22 +33,8 @@ function SearchResult({ navigation, route }) {
   const fetchContent = () => {
     fetch(url, globalConfig)
       .then((response) => response.json())
-      .then((result) => {
-        setSearchResult(result.items);
-        setWhole(wholeResult.concat(searchResult));
-      })
-      .catch((error) => {
-        console.log("fetch error");
-      });
-    /*
-    try {
-      const response = await fetch(url);
-      const result = await response.json();
-      setSearchResult(result.items);
-      console.log(searchResult);
-    } catch (error) {
-      console.log("fetch error");
-    }*/
+      .then((result) => setSearchResult(result.items))
+      .catch((error) => console.log("fetch error"));
   };
 
   const renderResult = ({ item, index }) => {
