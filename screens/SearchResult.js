@@ -11,33 +11,47 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 const deviceWidth = Dimensions.get("window").width;
 
-import globalStyles from "./../GlobalStyle";
-import globalConfig from "./../GlobalConfig";
+import {
+  globalStyles,
+  octokit,
+  requestRepoSearchAlt,
+  requestUserSearchAlt,
+} from "./../GlobalConfig";
 import Navbar from "./../component/Navbar";
 
 function SearchResult({ navigation, route }) {
   const { query, isRepo } = route.params;
   const [searchResult, setSearchResult] = useState([]);
 
-  const goBack = () => navigation.navigate("Home Screen");
+  const requestUserSearch = (query) => {
+    var result;
+    octokit
+      .request(`GET /search/users`, { q: query, per_page: 100 })
+      .then(({ data }) => {
+        result = data.items;
+      })
+      .catch((error) => {});
+  };
 
-  const url = () =>
-    `https://api.github.com/search/${
-      isRepo ? "repositories" : "users"
-    }?q=${query}&page=1&per_page=100`;
+  const requestRepoSearch = (query) => {
+    var result;
+    octokit
+      .request(`GET /search/repositories`, { q: query, per_page: 100 })
+      .then(({ data }) => {
+        result = data.items;
+        setSearchResult(result);
+      })
+      .catch((error) => {});
+  };
+
+  //  const goBack = () => navigation.navigate("Home Screen");
+  const goBack = () => navigation.goBack();
 
   const goToRepositoryDetail = (fullname) => {
     navigation.navigate("Repository Details", { fullname: fullname, path: "" });
   };
 
-  const fetchContent = () => {
-    fetch(url, globalConfig)
-      .then((response) => response.json())
-      .then((result) => setSearchResult(result.items))
-      .catch((error) => console.log("fetch error"));
-  };
-
-  const renderResult = ({ item, index }) => {
+  const renderResult = ({ item }) => {
     return isRepo ? (
       <Pressable
         style={({ pressed }) => [
@@ -47,22 +61,38 @@ function SearchResult({ navigation, route }) {
           },
         ]}
         onPress={() => {
-          console.log("repo pressed");
           goToRepositoryDetail(item.full_name);
         }}
       >
-        <Text>{index}</Text>
-        <Text>{item.full_name}</Text>
+        <Text style={styles.repoowner}>{item.owner.login}</Text>
+        <Text style={styles.reponame}>{item.name}</Text>
+        <Text style={styles.repodesc} numberOfLines={3}>
+          {item.description}
+        </Text>
       </Pressable>
     ) : (
-      <View style={[styles.user]}></View>
+      <Pressable
+        style={({ pressed }) => [
+          styles.user,
+          {
+            backgroundColor: pressed ? "grey" : "white",
+          },
+        ]}
+        onPress={() => console.log(item.login + " pressed")}
+      >
+        <Text>{item.login}</Text>
+      </Pressable>
     );
   };
 
   useEffect(() => {
-    console.log("useEffect");
-    fetchContent();
-    console.log("selesai useEffect");
+    async function fetchData() {
+      const res = isRepo
+        ? await requestRepoSearchAlt(query)
+        : await requestUserSearchAlt(query);
+      setSearchResult(res);
+    }
+    fetchData();
   }, []);
 
   return (
@@ -102,6 +132,23 @@ const styles = StyleSheet.create({
   repo: {
     borderBottomColor: "grey",
     borderBottomWidth: 1,
+    paddingLeft: "5%",
+    paddingRight: "5%",
+  },
+  reponame: {
+    color: "#0000ee",
+    color: "#539bf5",
+    color: "black",
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  repoowner: {
+    color: "grey",
+    fontSize: 15,
+  },
+  repodesc: {
+    color: "grey",
+    fontSize: 15,
   },
   result: {
     width: "100%",

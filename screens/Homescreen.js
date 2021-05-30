@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import globalStyles from "../GlobalStyle";
-import Navbar from "../component/Navbar";
+import { globalStyles } from "./../GlobalConfig";
+import Navbar from "./../component/Navbar";
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
@@ -22,7 +22,10 @@ function HomeScreen({ navigation }) {
   const toSearchScreen = (text, isRepo) => {
     if (text === "") {
     } else {
-      navigation.navigate("Search Result", { query: text, isRepo: isRepo });
+      navigation.navigate("Search Result", {
+        query: text,
+        isRepo: isRepo,
+      });
     }
   };
 

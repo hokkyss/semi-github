@@ -9,17 +9,20 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import globalStyles from "./../GlobalStyle";
-import globalConfig from "./../GlobalConfig";
+import { globalStyles, octokit } from "../GlobalConfig";
 import Navbar from "./../component/Navbar";
 
 function RepositoryDetails({ navigation, route }) {
-  const { fullname, path } = route.params;
+  const { fullname, path, octokit } = route.params;
   const [content, setContent] = useState("");
 
   const goBack = () => navigation.goBack();
 
   const pathList = path.split("/");
+
+  const config = {
+    permissions: `GET /repos/${fullname}/contents/${path}`,
+  };
 
   const url = `https://api.github.com/repos/${fullname}/contents/${path}`;
 
