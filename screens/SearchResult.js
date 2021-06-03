@@ -72,10 +72,10 @@ function SearchResult({ navigation, route }) {
       </Pressable>
     ) : (
       <Pressable
-        style={({ pressed }) => [
+        style={[
           styles.user,
-          {
-            backgroundColor: pressed ? "grey" : "white",
+          ({ pressed }) => {
+            backgroundColor: pressed ? "blue" : "white";
           },
         ]}
         onPress={() => console.log(item.login + " pressed")}
@@ -111,6 +111,7 @@ function SearchResult({ navigation, route }) {
           renderItem={renderResult}
           style={styles.result}
           extraData={isRepo}
+          keyExtractor={(item) => item.node_id}
         />
       </View>
     </View>

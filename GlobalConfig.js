@@ -3,7 +3,7 @@ import { StyleSheet, StatusBar, Dimensions } from "react-native";
 import { Octokit } from "@octokit/rest";
 
 const octokit = new Octokit({
-  auth: "",
+  auth: "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",
 });
 
 // username = login
@@ -54,13 +54,16 @@ async function requestUserSearchAlt(query) {
   return result;
 }
 
-function requestContents(fullname, path) {
-  octokit
-    .request(`GET /repos/${fullname}/contents/${path}`)
-    .then(({ data }) => {
-      setResult(data);
-    })
-    .catch((error) => {});
+async function requestContents(fullname, path) {
+  var result;
+  try {
+    const { data } = await octokit.request(
+      `GET /repos/${fullname}/contents/${path}`
+    );
+    result = data;
+  } catch (error) {
+    result = undefined;
+  }
   return result;
 }
 
@@ -115,4 +118,10 @@ const globalStyles = StyleSheet.create({
   },
 });
 
-export { octokit, requestRepoSearchAlt, requestUserSearchAlt, globalStyles };
+export {
+  octokit,
+  requestRepoSearchAlt,
+  requestUserSearchAlt,
+  requestContents,
+  globalStyles,
+};
